@@ -50,7 +50,7 @@ class HomeController extends Controller
                 }
             }
         }
-        $selected_test= isset($test_cases['face'][0]) ? $test_cases['face'][0]['url'] : '';
+        $selected_test= isset($test_cases['Face'][0]) ? $test_cases['Face'][0]['url'] : '';
         $browsers=json_encode($browsers);
         $test_cases=json_encode($test_cases);
 
