@@ -49462,14 +49462,18 @@ var render = function() {
             }
           }
         },
-        _vm._l(_vm.bro_list, function(item) {
-          return _c("option", { domProps: { value: item.url } }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(item.text.toUpperCase()) +
-                "\n            "
-            )
-          ])
+        _vm._l(_vm.bro_list, function(item, bro_index) {
+          return _c(
+            "option",
+            { key: bro_index, domProps: { value: item.url } },
+            [
+              _vm._v(
+                "\n                " +
+                  _vm._s(item.text.toUpperCase()) +
+                  "\n            "
+              )
+            ]
+          )
         })
       )
     ]),
@@ -49506,20 +49510,24 @@ var render = function() {
         _vm._l(_vm.test_list, function(tests, key) {
           return _c(
             "optgroup",
-            { attrs: { label: key } },
-            _vm._l(tests, function(test) {
-              return _c("option", { domProps: { value: test.url } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(
-                      test.text
-                        .replace(/-/g, " ")
-                        .replace(/_/g, " ")
-                        .toUpperCase()
-                    ) +
-                    "\n                "
-                )
-              ])
+            { key: key, attrs: { label: key } },
+            _vm._l(tests, function(test, test_index) {
+              return _c(
+                "option",
+                { key: test_index, domProps: { value: test.url } },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(
+                        test.text
+                          .replace(/-/g, " ")
+                          .replace(/_/g, " ")
+                          .toUpperCase()
+                      ) +
+                      "\n                "
+                  )
+                ]
+              )
             })
           )
         })
@@ -49897,7 +49905,6 @@ module.exports = function listToStyles (parentId, list) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_gallery__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_gallery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_gallery__);
-//
 //
 //
 //
@@ -51109,61 +51116,49 @@ var render = function() {
     _c("div", { staticClass: "card-header" }, [_vm._v(_vm._s(_vm.test_case))]),
     _vm._v(" "),
     _vm.test_images.length
-      ? _c(
-          "div",
-          { staticClass: "card-body" },
-          [
-            _c("gallery", {
-              attrs: { images: _vm.test_images, index: _vm.index },
-              on: {
-                close: function($event) {
-                  _vm.index = null
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "row" },
-              _vm._l(_vm.test_images, function(image, imageIndex) {
-                return _c(
-                  "div",
-                  {
-                    key: imageIndex,
-                    staticClass: "col-lg-3 col-md-4 col-xs-6 thumb"
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "thumbnail fancybox",
-                        attrs: { rel: "ligthbox", href: image.url }
-                      },
-                      [
-                        _c("img", {
-                          staticClass: "img-thumbnail",
-                          staticStyle: { height: "200px", width: "100%" },
-                          attrs: { src: image.url }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _c("small", { staticClass: "text-muted" }, [
-                            _vm._v(
-                              _vm._s(
-                                image.name.replace(/-/g, " ").toUpperCase()
+      ? _c("div", { staticClass: "card-body" }, [
+          _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.test_images, function(image, imageIndex) {
+              return !image.name.includes("_fail")
+                ? _c(
+                    "div",
+                    {
+                      key: imageIndex,
+                      staticClass: "col-lg-3 col-md-4 col-xs-6 thumb"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "thumbnail fancybox",
+                          attrs: { rel: "ligthbox", href: image.url }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "img-thumbnail",
+                            staticStyle: { height: "200px", width: "100%" },
+                            attrs: { src: image.url }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "text-center" }, [
+                            _c("small", { staticClass: "text-muted" }, [
+                              _vm._v(
+                                _vm._s(
+                                  image.name.replace(/-/g, " ").toUpperCase()
+                                )
                               )
-                            )
+                            ])
                           ])
-                        ])
-                      ]
-                    )
-                  ]
-                )
-              })
-            )
-          ],
-          1
-        )
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            })
+          )
+        ])
       : _c("div", { staticClass: "card-body" }, [
           _vm._v("\n      No Images Found.\n    ")
         ])

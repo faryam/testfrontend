@@ -2,15 +2,15 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
             <select v-model="bro_selected" class="form-control">
-                <option v-for="item in bro_list" v-bind:value="item.url">
+                <option v-for="(item,bro_index) in bro_list" v-bind:value="item.url" :key="bro_index">
                     {{ item.text.toUpperCase() }}
                 </option>
             </select>
         </li>
         <li class="nav-item">
             <select v-model="test_selected" class="form-control">
-                 <optgroup v-for="(tests, key) in test_list" v-bind:label="key">
-                    <option v-for="test in tests" v-bind:value="test.url">
+                 <optgroup v-for="(tests, key) in test_list" v-bind:label="key" :key="key">
+                    <option v-for="(test,test_index) in tests" v-bind:value="test.url" :key="test_index">
                         {{ test.text.replace(/-/g,' ').replace(/_/g,' ').toUpperCase() }}
                     </option>
                 </optgroup>
