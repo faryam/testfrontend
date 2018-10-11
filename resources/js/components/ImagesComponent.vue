@@ -6,10 +6,10 @@
           <gallery :images="test_images" :index="index" @close="index = null"></gallery>
           <div class="row">
             <div class="col-lg-3 col-md-4 col-xs-6 thumb" v-for="(image, imageIndex) in test_images" :key="imageIndex">
-                <a class="thumbnail" >
+                <a class="thumbnail fancybox" rel="ligthbox" :href="image.url" >
                   <img class="img-thumbnail" :src="image.url" style="height: 200px; width: 100%;">
-                  <div class="text-right">
-                    <small class='text-muted'>{{ image.name }}</small>
+                  <div class="text-center">
+                    <small class='text-muted'>{{ image.name.replace(/-/g,' ').toUpperCase() }}</small>
                   </div>
                 </a>
             </div>
@@ -36,7 +36,7 @@
         computed: {
 
           test_case: function () {
-            return this.selected_test.replace('/',' - ').replace('_',' ').toUpperCase();
+            return this.selected_test.replace(/-/g,' ').replace('/',' - ').replace(/_/g,' ').toUpperCase();
           }
         },
         components: {
@@ -49,4 +49,4 @@
     border: 1px solid #ebebeb;
     margin: 5px;
   }
-</style> 
+</style>

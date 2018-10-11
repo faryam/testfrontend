@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    
+
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
-        $dir = "test_dir";
+    {
+        $dir = "screenshots";
         $browsers=array();
         $test_cases=array();
         $dirs=$this->getDir($dir);
@@ -34,7 +34,7 @@ class HomeController extends Controller
 
         if (count($browsers)) {
             $selected_bro='chrome';
-            $dir = "test_dir/".$browsers[0]['url'];
+            $dir = "screenshots/".$browsers[0]['url'];
             $dirs=$this->getDir($dir);
             foreach ($dirs as $value) {
                 $test_cases[$value]=array();
@@ -53,7 +53,7 @@ class HomeController extends Controller
         $selected_test= isset($test_cases['face'][0]) ? $test_cases['face'][0]['url'] : '';
         $browsers=json_encode($browsers);
         $test_cases=json_encode($test_cases);
-        
+
         return view('home',compact('browsers','test_cases','selected_bro','selected_test'));
     }
 
@@ -73,7 +73,7 @@ class HomeController extends Controller
 
     public function getImages(Request $request)
     {
-        $dir = "test_dir";
+        $dir = "screenshots";
         $images=array();
         if (isset($request->path)) {
             $dir=$dir.'/'.$request->path;
@@ -82,7 +82,10 @@ class HomeController extends Controller
                 $files= $this->sortFiles($files);
                 foreach ($files as $key=>$file) {
                     $image['url']=$dir.'/'.$file;
-                    $image['name']=$file;
+                    $file= str_replace(".png", "", $file);
+                    $name_array = explode('_', $file);
+                    unset($name_array[0]);
+                    $image['name']= implode(" ", $name_array);
                     $images[$key]=$image;
                 }
             }

@@ -49464,7 +49464,11 @@ var render = function() {
         },
         _vm._l(_vm.bro_list, function(item) {
           return _c("option", { domProps: { value: item.url } }, [
-            _vm._v("\n                " + _vm._s(item.text) + "\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(item.text.toUpperCase()) +
+                "\n            "
+            )
           ])
         })
       )
@@ -49507,7 +49511,12 @@ var render = function() {
               return _c("option", { domProps: { value: test.url } }, [
                 _vm._v(
                   "\n                    " +
-                    _vm._s(test.text) +
+                    _vm._s(
+                      test.text
+                        .replace(/-/g, " ")
+                        .replace(/_/g, " ")
+                        .toUpperCase()
+                    ) +
                     "\n                "
                 )
               ])
@@ -49590,7 +49599,7 @@ var content = __webpack_require__(53);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(54)("7a348b0b", content, false, {});
+var update = __webpack_require__(54)("6d39f058", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -49923,7 +49932,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
 
     test_case: function test_case() {
-      return this.selected_test.replace('/', ' - ').replace('_', ' ').toUpperCase();
+      return this.selected_test.replace(/-/g, ' ').replace('/', ' - ').replace(/_/g, ' ').toUpperCase();
     }
   },
   components: {
@@ -51124,19 +51133,30 @@ var render = function() {
                     staticClass: "col-lg-3 col-md-4 col-xs-6 thumb"
                   },
                   [
-                    _c("a", { staticClass: "thumbnail" }, [
-                      _c("img", {
-                        staticClass: "img-thumbnail",
-                        staticStyle: { height: "200px", width: "100%" },
-                        attrs: { src: image.url }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "text-right" }, [
-                        _c("small", { staticClass: "text-muted" }, [
-                          _vm._v(_vm._s(image.name))
+                    _c(
+                      "a",
+                      {
+                        staticClass: "thumbnail fancybox",
+                        attrs: { rel: "ligthbox", href: image.url }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "img-thumbnail",
+                          staticStyle: { height: "200px", width: "100%" },
+                          attrs: { src: image.url }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "text-center" }, [
+                          _c("small", { staticClass: "text-muted" }, [
+                            _vm._v(
+                              _vm._s(
+                                image.name.replace(/-/g, " ").toUpperCase()
+                              )
+                            )
+                          ])
                         ])
-                      ])
-                    ])
+                      ]
+                    )
                   ]
                 )
               })

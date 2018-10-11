@@ -3,7 +3,7 @@
         <li class="nav-item">
             <select v-model="bro_selected" class="form-control">
                 <option v-for="item in bro_list" v-bind:value="item.url">
-                    {{ item.text }}
+                    {{ item.text.toUpperCase() }}
                 </option>
             </select>
         </li>
@@ -11,7 +11,7 @@
             <select v-model="test_selected" class="form-control">
                  <optgroup v-for="(tests, key) in test_list" v-bind:label="key">
                     <option v-for="test in tests" v-bind:value="test.url">
-                        {{ test.text }}
+                        {{ test.text.replace(/-/g,' ').replace(/_/g,' ').toUpperCase() }}
                     </option>
                 </optgroup>
             </select>
