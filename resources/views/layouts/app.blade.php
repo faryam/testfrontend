@@ -46,5 +46,10 @@
             @yield('content')
         </main>
     </div>
+    <script type="text/javascript">
+        var base_url='{{ url('/') }}';
+        var default_bro='{{ $selected_bro }}';
+        var default_test='{{ $selected_test }}';
+    </script>
 </body>
 </html>

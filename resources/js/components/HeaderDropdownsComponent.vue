@@ -1,14 +1,14 @@
 <template>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <select v-model="bro_selected">
+            <select v-model="bro_selected" class="form-control">
                 <option v-for="item in bro_list" v-bind:value="item.url">
                     {{ item.text }}
                 </option>
             </select>
         </li>
         <li class="nav-item">
-            <select v-model="test_selected">
+            <select v-model="test_selected" class="form-control">
                  <optgroup v-for="(tests, key) in test_list" v-bind:label="key">
                     <option v-for="test in tests" v-bind:value="test.url">
                         {{ test.text }}

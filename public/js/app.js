@@ -15906,20 +15906,37 @@ Vue.component('header-dropdown', __webpack_require__(48));
 Vue.component('image-gallary', __webpack_require__(51));
 
 var app = new Vue({
-  el: '#app',
-  data: {
-    images: [],
-    selected_test: ''
-  },
-  methods: {
-    newBrowser: function newBrowser($value) {
-      console.log($value);
+    el: '#app',
+    data: {
+        images: [],
+        selected_test: default_test,
+        selected_bro: default_bro
     },
-    newTest: function newTest(value) {
-      console.log(value);
-      this.selected_test = value;
+    mounted: function mounted() {
+        this.getImages();
+    },
+
+    methods: {
+        newBrowser: function newBrowser(value) {
+            this.selected_bro = value;
+            this.getImages();
+        },
+        newTest: function newTest(value) {
+            this.selected_test = value;
+            this.getImages();
+        },
+        getImages: function getImages() {
+            var _this = this;
+
+            var path = this.selected_bro + '/' + this.selected_test;
+            axios.get(base_url + '/api/images?path=' + path).then(function (response) {
+                resultArray = Object.keys(response.data.Images).map(function (key) {
+                    return response.data.Images[key];
+                });
+                _this.images = resultArray;
+            });
+        }
     }
-  }
 });
 
 /***/ }),
@@ -49428,6 +49445,7 @@ var render = function() {
               expression: "bro_selected"
             }
           ],
+          staticClass: "form-control",
           on: {
             change: function($event) {
               var $$selectedVal = Array.prototype.filter
@@ -49464,6 +49482,7 @@ var render = function() {
               expression: "test_selected"
             }
           ],
+          staticClass: "form-control",
           on: {
             change: function($event) {
               var $$selectedVal = Array.prototype.filter
@@ -49882,6 +49901,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -49890,6 +49919,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       index: null
     };
+  },
+  computed: {
+
+    test_case: function test_case() {
+      return this.selected_test.replace('/', ' - ').replace('_', ' ').toUpperCase();
+    }
   },
   components: {
     'gallery': __WEBPACK_IMPORTED_MODULE_0_vue_gallery___default.a
@@ -51062,34 +51097,56 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [
-      _vm._v(_vm._s(_vm.selected_test))
-    ]),
+    _c("div", { staticClass: "card-header" }, [_vm._v(_vm._s(_vm.test_case))]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-body" },
-      [
-        _c("gallery", {
-          attrs: { images: _vm.test_images, index: _vm.index },
-          on: {
-            close: function($event) {
-              _vm.index = null
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.test_images, function(image, imageIndex) {
-          return _c("a", { key: imageIndex, staticClass: "image" }, [
-            _c("img", {
-              style: { width: "300px", height: "200px" },
-              attrs: { src: image }
-            })
-          ])
-        })
-      ],
-      2
-    )
+    _vm.test_images.length
+      ? _c(
+          "div",
+          { staticClass: "card-body" },
+          [
+            _c("gallery", {
+              attrs: { images: _vm.test_images, index: _vm.index },
+              on: {
+                close: function($event) {
+                  _vm.index = null
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "row" },
+              _vm._l(_vm.test_images, function(image, imageIndex) {
+                return _c(
+                  "div",
+                  {
+                    key: imageIndex,
+                    staticClass: "col-lg-3 col-md-4 col-xs-6 thumb"
+                  },
+                  [
+                    _c("a", { staticClass: "thumbnail" }, [
+                      _c("img", {
+                        staticClass: "img-thumbnail",
+                        staticStyle: { height: "200px", width: "100%" },
+                        attrs: { src: image.url }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "text-right" }, [
+                        _c("small", { staticClass: "text-muted" }, [
+                          _vm._v(_vm._s(image.name))
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              })
+            )
+          ],
+          1
+        )
+      : _c("div", { staticClass: "card-body" }, [
+          _vm._v("\n      No Images Found.\n    ")
+        ])
   ])
 }
 var staticRenderFns = []

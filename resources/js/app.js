@@ -23,16 +23,32 @@ const app = new Vue({
     el: '#app',
     data: {
     	images: [],
-    	selected_test:''
+        selected_test:default_test,
+    	selected_bro:default_bro
+    },
+    mounted() {
+        this.getImages();
     },
     methods:{
-    	newBrowser($value){
-    		console.log($value);
+    	newBrowser(value){
+            this.selected_bro=value;
+            this.getImages();
     	},
     	newTest(value){
-    		console.log(value);
     		this.selected_test=value;
-    	}
+            this.getImages();
+    	},
+        getImages(){
+            var path=this.selected_bro+'/'+this.selected_test;
+            axios
+            .get(base_url+'/api/images?path='+path)
+            .then(response => {
+                resultArray = Object.keys(response.data.Images).map(function(key) {
+                    return response.data.Images[key];
+                });
+                this.images= resultArray;
+            })
+        }
 
     }
 });

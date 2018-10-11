@@ -1,12 +1,22 @@
 <template>
     <div class="card">
-        <div class="card-header">{{ selected_test }}</div>
+        <div class="card-header">{{ test_case }}</div>
 
-        <div class="card-body">
-            <gallery :images="test_images" :index="index" @close="index = null"></gallery>
-            <a class="image" v-for="(image, imageIndex) in test_images" :key="imageIndex">
-                <img :src="image" :style="{ width: '300px', height: '200px' }">
-            </a>
+        <div class="card-body" v-if="test_images.length">
+          <gallery :images="test_images" :index="index" @close="index = null"></gallery>
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb" v-for="(image, imageIndex) in test_images" :key="imageIndex">
+                <a class="thumbnail" >
+                  <img class="img-thumbnail" :src="image.url" style="height: 200px; width: 100%;">
+                  <div class="text-right">
+                    <small class='text-muted'>{{ image.name }}</small>
+                  </div>
+                </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body" v-else>
+          No Images Found.
         </div>
     </div>
 </template>
@@ -21,6 +31,12 @@
         data: function () {
           return {
             index: null
+          }
+        },
+        computed: {
+
+          test_case: function () {
+            return this.selected_test.replace('/',' - ').replace('_',' ').toUpperCase();
           }
         },
         components: {
