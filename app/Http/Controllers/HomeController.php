@@ -18,6 +18,7 @@ class HomeController extends Controller
         $browsers=array();
         $test_cases=array();
         $dirs=$this->getDir($dir);
+        //Get list of devices and browsers
         foreach ($dirs as $value) {
             if ($value=='mobile') {
                 $moDir=$this->getDir($dir.'/mobile');
@@ -31,7 +32,7 @@ class HomeController extends Controller
             }
         }
         $selected_bro='';
-
+        // Get list of test cases
         if (count($browsers)) {
             $selected_bro='chrome';
             $dir = "screenshots/".$browsers[0]['url'];
@@ -50,6 +51,7 @@ class HomeController extends Controller
                 }
             }
         }
+        // Defualt browser and Testcase
         $selected_test= isset($test_cases['Face'][0]) ? $test_cases['Face'][0]['url'] : '';
         $browsers=json_encode($browsers);
         $test_cases=json_encode($test_cases);
@@ -57,7 +59,7 @@ class HomeController extends Controller
         return view('home',compact('browsers','test_cases','selected_bro','selected_test'));
     }
 
-
+    //Get the  Directories in given path
     public function getDir($dir)
     {
         $values = scandir($dir);
@@ -71,6 +73,7 @@ class HomeController extends Controller
         return $dirs;
     }
 
+    //Get the Images
     public function getImages(Request $request)
     {
         $dir = "screenshots";
@@ -94,18 +97,22 @@ class HomeController extends Controller
         return response()->json($data);
     }
 
+    //Sort the Files according of the step
     public function sortFiles($files)
     {
         $images=[];
         foreach ($files as $file) {
-            $name_array= explode('_',$file);
-            if (isset($name_array[0]) && is_numeric($name_array[0])) {
-                $index=$name_array[0];
-                $images[$index]=$file;
-            }
-            else if(strpos($file, '.png')||strpos($file, '.PNG')||strpos($file, '.jpg')||strpos($file, '.JPG'))
+            if(strpos($file, '_fail') == false)
             {
-                array_push($images,$file);
+                $name_array= explode('_',$file);
+                if (isset($name_array[0]) && is_numeric($name_array[0])) {
+                    $index=$name_array[0];
+                    $images[$index]=$file;
+                }
+                else if(strpos($file, '.png')||strpos($file, '.PNG')||strpos($file, '.jpg')||strpos($file, '.JPG'))
+                {
+                    array_push($images,$file);
+                }
             }
         }
         return $images;
