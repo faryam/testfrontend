@@ -5,8 +5,8 @@
         <div class="card-body" v-if="test_images.length">
           <div class="row">
             <div class="col-lg-3 col-md-4 col-xs-6 thumb" v-for="(image, imageIndex) in test_images" :key="imageIndex" v-if="!image.name.includes('_fail')">
-                <a class="thumbnail fancybox" rel="ligthbox" :href="image.url" >
-                  <img class="img-thumbnail" :src="image.url" style="height: 200px; width: 100%;">
+                <a class="thumbnail fancybox" rel="ligthbox" :href="image.url" :title="image.name.replace(/-/g,' ').toUpperCase()">
+                  <img class="img-thumbnail" :src="image.url" v-bind:style="image_style">
                   <div class="text-center">
                     <small class='text-muted'>{{ image.name.replace(/-/g,' ').toUpperCase() }}</small>
                   </div>
@@ -26,6 +26,7 @@
         props: [
             'test_images',
             'selected_test',
+            'browser',
         ],
         data: function () {
           return {
@@ -36,6 +37,15 @@
 
           test_case: function () {
             return this.selected_test.replace(/-/g,' ').replace('/',' - ').replace(/_/g,' ').toUpperCase();
+          },
+          image_style:function () {
+            if (this.browser!='chrome' && this.browser !='firefox' && this.browser!='safari') {
+              return '';
+            }
+            else
+            {
+              return  { height: '200px',width: '100%'};
+            }
           }
         },
         components: {

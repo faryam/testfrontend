@@ -49607,7 +49607,7 @@ var content = __webpack_require__(53);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(54)("6d39f058", content, false, {});
+var update = __webpack_require__(54)("7a348b0b", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -49930,7 +49930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['test_images', 'selected_test'],
+  props: ['test_images', 'selected_test', 'browser'],
   data: function data() {
     return {
       index: null
@@ -49940,6 +49940,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     test_case: function test_case() {
       return this.selected_test.replace(/-/g, ' ').replace('/', ' - ').replace(/_/g, ' ').toUpperCase();
+    },
+    image_style: function image_style() {
+      if (this.browser != 'chrome' && this.browser != 'firefox' && this.browser != 'safari') {
+        return '';
+      } else {
+        return { height: '200px', width: '100%' };
+      }
     }
   },
   components: {
@@ -51133,12 +51140,16 @@ var render = function() {
                         "a",
                         {
                           staticClass: "thumbnail fancybox",
-                          attrs: { rel: "ligthbox", href: image.url }
+                          attrs: {
+                            rel: "ligthbox",
+                            href: image.url,
+                            title: image.name.replace(/-/g, " ").toUpperCase()
+                          }
                         },
                         [
                           _c("img", {
                             staticClass: "img-thumbnail",
-                            staticStyle: { height: "200px", width: "100%" },
+                            style: _vm.image_style,
                             attrs: { src: image.url }
                           }),
                           _vm._v(" "),
